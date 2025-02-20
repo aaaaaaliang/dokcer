@@ -1,0 +1,94 @@
+name: Build and Push Common Docker Images
+
+on:
+  push:
+    branches:
+      - main  # 在 main 分支上有代码更新时触发工作流
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest  # 使用 Ubuntu 环境
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # 检出代码仓库中的内容
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Alibaba Cloud Docker Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: registry.cn-hangzhou.aliyuncs.com
+
+      # 拉取并推送 nginx 镜像
+      - name: Pull and Push Nginx Image
+        run: |
+          docker pull nginx:alpine
+          docker tag nginx:alpine registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/nginx:alpine
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/nginx:alpine
+
+      # 拉取并推送 alpine 镜像
+      - name: Pull and Push Alpine Image
+        run: |
+          docker pull alpine:latest
+          docker tag alpine:latest registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/alpine:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/alpine:latest
+
+      # 拉取并推送 golang 镜像
+      - name: Pull and Push Golang Image
+        run: |
+          docker pull golang:1.23
+          docker tag golang:1.23 registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/golang:1.23
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/golang:1.23
+
+      # 拉取并推送 Node.js 镜像
+      - name: Pull and Push Node.js Image
+        run: |
+          docker pull node:16-alpine
+          docker tag node:16-alpine registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/node:16-alpine
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/node:16-alpine
+
+      # 拉取并推送 MySQL 镜像
+      - name: Pull and Push MySQL Image
+        run: |
+          docker pull mysql:latest
+          docker tag mysql:latest registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/mysql:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/mysql:latest
+
+      # 拉取并推送 Redis 镜像
+      - name: Pull and Push Redis Image
+        run: |
+          docker pull redis:latest
+          docker tag redis:latest registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/redis:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/redis:latest
+
+      # 拉取并推送 PostgreSQL 镜像
+      - name: Pull and Push PostgreSQL Image
+        run: |
+          docker pull postgres:latest
+          docker tag postgres:latest registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/postgres:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/postgres:latest
+
+      # 拉取并推送 MongoDB 镜像
+      - name: Pull and Push MongoDB Image
+        run: |
+          docker pull mongo:latest
+          docker tag mongo:latest registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/mongo:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/mongo:latest
+
+      # 拉取并推送 Python 镜像
+      - name: Pull and Push Python Image
+        run: |
+          docker pull python:3.10-alpine
+          docker tag python:3.10-alpine registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/python:3.10-alpine
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/python:3.10-alpine
+
+      # 拉取并推送 OpenJDK 镜像
+      - name: Pull and Push OpenJDK Image
+        run: |
+          docker pull openjdk:17-alpine
+          docker tag openjdk:17-alpine registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/openjdk:17-alpine
+          docker push registry.cn-hangzhou.aliyuncs.com/aliang11/3011549907/openjdk:17-alpine
